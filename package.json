@@ -4,7 +4,8 @@
   "description": "Utility scripts to help with package management",
   "main": "index.js",
   "scripts": {
-    "update-version": "update-version"
+    "test": "node __tests__/*.test.js",
+    "update:version": "update-version"
   },
   "author": "jahid90",
   "license": "MIT",
