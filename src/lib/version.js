@@ -49,6 +49,8 @@ const nextPatch = (version) => {
 const nextMajor = (version) => {
     let [ major, minor, patch ] = parse(version);
     ++major;
+    minor = 0;
+    patch = 0;
 
     return `${major}.${minor}.${patch}`;
 };
@@ -56,6 +58,7 @@ const nextMajor = (version) => {
 const nextMinor = (version) => {
     let [ major, minor, patch ] = parse(version);
     ++minor;
+    patch = 0;
 
     return `${major}.${minor}.${patch}`;
 };
