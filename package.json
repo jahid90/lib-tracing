@@ -1,6 +1,6 @@
 {
   "name": "@jahid90/package",
-  "version": "1.0.6",
+  "version": "1.1.1",
   "description": "Utility scripts to help with package management",
   "main": "index.js",
   "scripts": {
