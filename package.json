@@ -1,14 +1,15 @@
 {
   "name": "@jahid90/package",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Utility scripts to help with package management",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "update:version": "./bin/update-version.js",
-    "update:version:major": "./bin/update-version.js --major",
-    "update:version:minor": "./bin/update-version.js --minor",
-    "update:version:patch": "./bin/update-version.js --patch"
+    "version:get": "./bin/get-version.js",
+    "version:update": "./bin/update-version.js",
+    "version:update:major": "./bin/update-version.js --major",
+    "version:update:minor": "./bin/update-version.js --minor",
+    "version:update:patch": "./bin/update-version.js --patch"
   },
   "author": "jahid90",
   "license": "MIT",
