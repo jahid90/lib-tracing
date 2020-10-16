@@ -4,15 +4,17 @@ const flags = [
 
 const _showHelp = () => {
     console.log(`
-update-version.js Updates the version in config file. Config file is package.json by default.
+get-version.js Fetches the version from config file. Config file is package.json by default.
                   Can be overridden by an env variable - METADATA_FILE_NAME
 
-Usage: node update-version.js [--major | --minor | --patch]
+Usage: node get-version.js [--major | --minor | --patch]
 
   Options:
-    --major     Updates the major version
-    --minor     Updates the minor version
-    --patch     Updates the patch version; this is the default
+    --major     Fetches the major version
+    --minor     Fetches the minor version
+    --patch     Fetches the patch version;
+
+  If no flag is passed, the complete version is returned.
     `);
 };
 
@@ -26,7 +28,7 @@ const _validate = (args) => {
     }
 };
 
-const _update = (fn) => {
+const _fetch = (fn) => {
     const { create, read, write } = require('./lib/file');
     const { parse, stringify } = require('./lib/json');
 
@@ -38,15 +40,13 @@ const _update = (fn) => {
     const parsed = parse(contents);
 
     // Update the version
-    parsed.version = parsed.version || '0.0.0';
-    parsed.version = fn(parsed.version);
+    version = parsed.version || '0.0.0';
+    version = fn(version);
 
     // Log the updated version
-    console.debug(`Info: version updated to ${parsed.version}`);
+    console.debug(`Info: version in ${filename} is ${version}`);
 
-    // Write the updates to file
-    const updatedContents = stringify(parsed);
-    write(filename, updatedContents + '\n');
+    return version;
 }
 
 const main = () => {
@@ -59,16 +59,16 @@ const main = () => {
 
         switch (args[0]) {
             case '--major':
-                _update(version.nextMajor);
-                break;
+                return _fetch(version.major);
 
             case '--minor':
-                _update(version.nextMinor);
-                break;
+                return _fetch(version.minor);
+
+            case '--patch':
+                return _fetch(version.patch);
 
             default:
-                _update(version.nextPatch);
-                break;
+                return _fetch((version) => version);
         }
 
     } catch (err) {

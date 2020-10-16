@@ -7,7 +7,7 @@ const _validate = (version) => {
     }
 };
 
-const parse = (version) => {
+const _parse = (version) => {
     try {
 
         _validate(version);
@@ -22,32 +22,32 @@ const parse = (version) => {
 };
 
 const major = (version) => {
-    let [ major, ...rest ] = parse(version);
+    let [ major, ...rest ] = _parse(version);
 
     return major;
 };
 
 const minor = (version) => {
-    let [ major, minor, patch ] = parse(version);
+    let [ major, minor, patch ] = _parse(version);
 
     return minor;
 };
 
 const patch = (version) => {
-    let [ major, minor, patch ] = parse(version);
+    let [ major, minor, patch ] = _parse(version);
 
     return patch;
 };
 
 const nextPatch = (version) => {
-    let [ major, minor, patch ] = parse(version);
+    let [ major, minor, patch ] = _parse(version);
     ++patch;
 
     return `${major}.${minor}.${patch}`;
 };
 
 const nextMajor = (version) => {
-    let [ major, minor, patch ] = parse(version);
+    let [ major, minor, patch ] = _parse(version);
     ++major;
     minor = 0;
     patch = 0;
@@ -56,7 +56,7 @@ const nextMajor = (version) => {
 };
 
 const nextMinor = (version) => {
-    let [ major, minor, patch ] = parse(version);
+    let [ major, minor, patch ] = _parse(version);
     ++minor;
     patch = 0;
 
