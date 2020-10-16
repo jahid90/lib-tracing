@@ -1,0 +1,14 @@
+{
+  "name": "@jahid90/package",
+  "version": "1.0.0",
+  "description": "Utility scripts to help with package management",
+  "main": "index.js",
+  "scripts": {
+    "update-version": "update-version"
+  },
+  "author": "jahid90",
+  "license": "MIT",
+  "bin": {
+    "update-version": "./bin/update-version.js"
+  }
+}

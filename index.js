@@ -1,0 +1,1 @@
+throw new Error('Use the package binary to call the available functions');
