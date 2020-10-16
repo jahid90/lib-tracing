@@ -1,11 +1,11 @@
 {
   "name": "@jahid90/package",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "Utility scripts to help with package management",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "git:tag": "git tag $(./bin/get-version.js)",
+    "git:tag": "git tag v$(./bin/get-version.js)",
     "version:get": "./bin/get-version.js",
     "version:update": "./bin/update-version.js",
     "version:update:major": "./bin/update-version.js --major",
@@ -15,6 +15,7 @@
   "author": "jahid90",
   "license": "MIT",
   "bin": {
+    "get-version": "bin/get-version.js",
     "update-version": "bin/update-version.js"
   },
   "dependencies": {},
