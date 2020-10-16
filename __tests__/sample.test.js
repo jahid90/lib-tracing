@@ -1,6 +1,7 @@
-const test = () => {
-  console.log('successful');
-  process.exit(0);
-};
+describe('Module Tests', () => {
 
-test();
+  it('should run', () => {
+    expect(true).toEqual(true);
+  });
+
+});

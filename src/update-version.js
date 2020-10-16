@@ -4,7 +4,8 @@ const flags = [
 
 const _showHelp = () => {
     console.log(`
-update-version.js Updates the version in .app-metadata.json
+update-version.js Updates the version in config file. Config file is package.json by default.
+                  Can be overridden by an env variable - METADATA_FILE_NAME
 
 Usage: node update-version.js [--major | --minor | --patch]
 
@@ -29,7 +30,7 @@ const _update = (fn) => {
     const { create, read, write } = require('./lib/file');
     const { parse, stringify } = require('./lib/json');
 
-    const filename = process.env.METADATA_FILE_NAME || '.app-metadata.json';
+    const filename = process.env.METADATA_FILE_NAME || 'package.json';
 
     // Read the file
     create(filename);
@@ -37,7 +38,7 @@ const _update = (fn) => {
     const parsed = parse(contents);
 
     // Update the version
-    parsed.version = parsed.version || '0.1.2';
+    parsed.version = parsed.version || '0.0.0';
     parsed.version = fn(parsed.version);
 
     // Log the updated version

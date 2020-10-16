@@ -1,11 +1,14 @@
 {
   "name": "@jahid90/package",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Utility scripts to help with package management",
   "main": "index.js",
   "scripts": {
-    "test": "node __tests__/*.test.js",
-    "update:version": "update-version"
+    "test": "jest",
+    "update:version": "./bin/update-version.js",
+    "update:version:major": "./bin/update-version.js --major",
+    "update:version:minor": "./bin/update-version.js --minor",
+    "update:version:patch": "./bin/update-version.js --patch"
   },
   "author": "jahid90",
   "license": "MIT",
@@ -13,7 +16,9 @@
     "update-version": "bin/update-version.js"
   },
   "dependencies": {},
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^26.5.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jahid90/package.git"
