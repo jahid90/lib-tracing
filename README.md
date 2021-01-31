@@ -9,25 +9,50 @@ Utility functions for package management
 #### Install as dependency
 
 ```shell
-$ npm install @jahid90/package
+npm install -g @jahid90/package
 ```
-#### Updating package versions
+### Updating package version
 
-The `update-version` script handles managing package versions. It tracks the package version in a config file called `.app-metadata.json` by default. It takes any one of three flags `[--major, --minor, --patch]`. If no arguments are passed, `--patch` is implied.
+#### get-version script
+
+The `get-version` script retrieves the current package version. It uses the `package.json` file by default to retrieve the version information from. This can be changed by supplying a custom file with the `METADATA_FILE_NAME` env variable.
+
+```shell
+get-version
+```
+
+```shell
+METADATA_FILE_NAME=custom.json get-version
+```
+
+#### update-version script
+
+The `update-version` script handles managing package versions. It uses `package.json` by default. It takes any one of three flags `[--major, --minor, --patch]`. If no arguments are passed, `--patch` is implied. The default file to store/retrieve version to/from can be changed with the `METADATA_FILE_NAME` env variable.
+
+```shell
+update-version
+```
+
+```shell
+METADATA_FILE_NAME=custom.json update-version --major
+```
+
+#### Alternative usage
 
 ##### Add package.json scripts
 
 ```shell
-$ cat package.json
+cat package.json
 
 {
   ...
   scripts: {
     ...
-    "update:version": "update-version"
-    "update:version:major": "update-version --major",
-    "update:version:minor": "update-version --minor",
-    "update:version:patch": "update-version --patch",
+    "version:get": "get-version"
+    "version:update": "update-version"
+    "version:update:major": "update-version --major",
+    "version:update:minor": "update-version --minor",
+    "version:update:patch": "update-version --patch",
     ...
   },
   ...
@@ -37,7 +62,7 @@ $ cat package.json
 ##### Run the scripts
 
 ```shell
-$ npm run update:version
+npm run version:update:minor
 ```
 
 
@@ -46,12 +71,12 @@ $ npm run update:version
 #### Checkout the source
 
 ```shell
-$ git clone https://github.com/jahid90/package.git
+git clone https://github.com/jahid90/package.git
 ```
 
 #### Publishing
 
 ```shell
-$ npm login
-$ npm publish --scope public
+npm login
+npm publish --scope public
 ```
