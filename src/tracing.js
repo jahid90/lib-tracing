@@ -43,8 +43,9 @@ const init = () => {
 
 const tracer = trace.getTracer(constants.SERVICE_NAME);
 
-const traceFn = (cb, label) => {
-    return () => {
+function traceFn(cb, label) {
+
+    return function() {
 
         // Start the instrumentation
         const span = tracer.startSpan(label);
@@ -60,8 +61,27 @@ const traceFn = (cb, label) => {
     };
 }
 
+function traceAsyncFn(cb, label) {
+
+    return async function() {
+
+        // Start the instrumentation
+        const span = tracer.startSpan(label);
+
+        // Invoke the function
+        const result = cb.apply(this, arguments);
+
+        // End the instrumentation
+        span.end();
+
+        // Return the result
+        return result;
+    }
+}
+
 module.exports = {
     trace: traceFn,
+    traceAsync: traceAsyncFn,
     // Call this before starting the express server
     init
 };
