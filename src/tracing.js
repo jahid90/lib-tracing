@@ -65,17 +65,19 @@ function traceAsyncFn(cb, label) {
 
     return async function() {
 
-        // Start the instrumentation
+        // Mark instrumentation start
         const span = tracer.startSpan(label);
 
         // Invoke the function
-        const result = cb.apply(this, arguments);
+        return cb.apply(this, arguments)
+            .then((response) => {
 
-        // End the instrumentation
-        span.end();
+                // Mark instrumentation end
+                span.end();
 
-        // Return the result
-        return result;
+                // Propagate the response
+                return response;
+            });
     }
 }
 
