@@ -1,9 +1,12 @@
 {
-  "name": "lib-tracing",
+  "name": "@jahiduls/lib-tracing",
   "version": "1.0.0",
   "description": "Tracing library for ExpressJS apps based on Open Telemetry",
   "main": "index.js",
-  "repository": "git@github.com:jahid90/lib-tracing.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jahid90/lib-tracing.git"
+  },
   "author": "Jahid <jahid90@users.noreply.github.com>",
   "license": "MIT",
   "private": false,
@@ -15,5 +18,16 @@
     "@opentelemetry/instrumentation-http": "^0.24.0",
     "@opentelemetry/sdk-trace-base": "^0.24.1-alpha.4",
     "@opentelemetry/sdk-trace-node": "^0.24.1-alpha.4"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/jahid90/lib-tracing/issues"
+  },
+  "homepage": "https://github.com/jahid90/lib-tracing#readme",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tracing"
+  ]
 }
