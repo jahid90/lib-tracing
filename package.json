@@ -1,6 +1,6 @@
 {
   "name": "@jahiduls/lib-tracing",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Tracing library for ExpressJS apps based on Open Telemetry",
   "main": "src/index.js",
   "repository": {

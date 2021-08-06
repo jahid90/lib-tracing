@@ -242,30 +242,6 @@ is-core-module@^2.2.0:
   dependencies:
     has "^1.0.3"
 
-lib-tracing@/home/jahidul/workspace/projects/server/lib-tracing:
-  version "1.0.0"
-  dependencies:
-    "@opentelemetry/api" "^1.0.2"
-    "@opentelemetry/exporter-zipkin" "^0.24.0"
-    "@opentelemetry/instrumentation-express" "^0.24.0"
-    "@opentelemetry/instrumentation-grpc" "^0.24.0"
-    "@opentelemetry/instrumentation-http" "^0.24.0"
-    "@opentelemetry/sdk-trace-base" "^0.24.1-alpha.4"
-    "@opentelemetry/sdk-trace-node" "^0.24.1-alpha.4"
-    lib-tracing "file:."
-
-"lib-tracing@file:.":
-  version "1.0.0"
-  dependencies:
-    "@opentelemetry/api" "^1.0.2"
-    "@opentelemetry/exporter-zipkin" "^0.24.0"
-    "@opentelemetry/instrumentation-express" "^0.24.0"
-    "@opentelemetry/instrumentation-grpc" "^0.24.0"
-    "@opentelemetry/instrumentation-http" "^0.24.0"
-    "@opentelemetry/sdk-trace-base" "^0.24.1-alpha.4"
-    "@opentelemetry/sdk-trace-node" "^0.24.1-alpha.4"
-    lib-tracing "file:."
-
 lodash.merge@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.merge/-/lodash.merge-4.6.2.tgz#558aa53b43b661e1925a0afdfa36a9a1085fe57a"

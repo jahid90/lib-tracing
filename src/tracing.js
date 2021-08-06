@@ -4,6 +4,7 @@ const { Resource } = require('@opentelemetry/resources');
 const { SemanticResourceAttributes } = require('@opentelemetry/semantic-conventions');
 const { SimpleSpanProcessor } = require('@opentelemetry/sdk-trace-base');
 const { ZipkinExporter } = require('@opentelemetry/exporter-zipkin');
+const { registerInstrumentations } = require("@opentelemetry/instrumentation");
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
 const { GrpcInstrumentation } = require("@opentelemetry/instrumentation-grpc");
 
@@ -21,11 +22,11 @@ const provider = new NodeTracerProvider({
     })
 });
 
+const exporterOptions = uris.ZIPKIN_URI ? { url: uris.ZIPKIN_URI } : {};
+
 provider.addSpanProcessor(
     new SimpleSpanProcessor(
-        new ZipkinExporter({
-            url: uris.ZIPKIN_URI
-        })
+        new ZipkinExporter(exporterOptions)
     )
 );
 
@@ -42,25 +43,25 @@ const init = () => {
 
 const tracer = trace.getTracer(constants.SERVICE_NAME);
 
-const trace = (cb, label) => {
+const traceFn = (cb, label) => {
     return () => {
 
         // Start the instrumentation
         const span = tracer.startSpan(label);
-        
+
         // Invoke the function
         const result = cb.apply(this, arguments);
-        
+
         // End the instrumentation
         span.end();
 
         // Return the result
         return result;
     };
-} 
+}
 
 module.exports = {
-    trace,
+    trace: traceFn,
     // Call this before starting the express server
     init
 };
