@@ -1,0 +1,7 @@
+lockfileVersion: 5.3
+
+specifiers:
+  '@jahiduls/lib-tracing': link:/home/jahidul/workspace/projects/npm-libs/lib-tracing
+
+dependencies:
+  '@jahiduls/lib-tracing': link:../lib-tracing

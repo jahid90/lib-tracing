@@ -1,0 +1,12 @@
+{
+  "name": "lib-tracing-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "EnableLogTraceToConsole=true ZIPKIN_URI=http://zipkin.jahiduls.mint/api/v2/spans node src/index.js"
+  },
+  "dependencies": {
+    "@jahiduls/lib-tracing": "link:/home/jahidul/workspace/projects/npm-libs/lib-tracing"
+  }
+}
