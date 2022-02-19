@@ -13,17 +13,19 @@
   "dependencies": {
     "@opentelemetry/api": "^1.0.2",
     "@opentelemetry/exporter-zipkin": "^0.24.0",
+    "@opentelemetry/instrumentation": "^0.24.0",
     "@opentelemetry/instrumentation-express": "^0.24.0",
     "@opentelemetry/instrumentation-grpc": "^0.24.0",
     "@opentelemetry/instrumentation-http": "^0.24.0",
+    "@opentelemetry/resources": "^0.24.0",
     "@opentelemetry/sdk-trace-base": "^0.24.1-alpha.4",
-    "@opentelemetry/sdk-trace-node": "^0.24.1-alpha.4"
+    "@opentelemetry/sdk-trace-node": "^0.24.1-alpha.4",
+    "@opentelemetry/semantic-conventions": "^0.24.0"
   },
   "bugs": {
     "url": "https://github.com/jahid90/lib-tracing/issues"
   },
   "homepage": "https://github.com/jahid90/lib-tracing#readme",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
