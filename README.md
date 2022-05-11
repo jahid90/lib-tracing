@@ -1,4 +1,5 @@
 [![mem-esdb](https://github.com/jahid90/libs/actions/workflows/mem-esdb.yaml/badge.svg)](https://github.com/jahid90/libs/actions/workflows/mem-esdb.yaml)
+[![message-store](https://github.com/jahid90/libs/actions/workflows/message-store.yaml/badge.svg)](https://github.com/jahid90/libs/actions/workflows/message-store.yaml)
 
 # Libs
 
