@@ -1,10 +1,11 @@
 {
-    "name": "@jahid90/lib-message-store",
+    "name": "@jahiduls/lib-message-store",
     "version": "1.0.0",
-    "description": "Postgres based event store from eventide",
+    "description": "Implementation of an event store with various drivers",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "jest",
+        "test:watch": "jest --watch"
     },
     "keywords": [
         "eventstore",
@@ -13,7 +14,11 @@
     "author": "Jahid",
     "license": "ISC",
     "dependencies": {
+        "@jahiduls/mem-esdb": "https://gitpkg.now.sh/jahid90/libs/mem-esdb?main",
         "bluebird": "^3.7.2",
         "uuid": "^8.3.2"
+    },
+    "devDependencies": {
+        "jest": "^28.1.0"
     }
 }

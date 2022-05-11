@@ -21,8 +21,7 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
 
         const loadPosition = () => {
             return readLastMessage(subscriberPositionStreamName).then(
-                (message) =>
-                    (currentPosition = message ? message.data.position : 0)
+                (message) => (currentPosition = message ? message.data.position : 0)
             );
         };
 
@@ -64,26 +63,20 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
             }
 
             return messages.filter((message) => {
-                const originCategory =
-                    message.metadata &&
-                    category(message.metadata.originStreamName);
+                const originCategory = message.metadata && category(message.metadata.originStreamName);
 
                 return originStreamName === originCategory;
             });
         };
 
         const getNextBatchOfMessages = () => {
-            return read(streamName, currentPosition + 1, messagesPerTick).then(
-                filterOnOriginMatch
-            );
+            return read(streamName, currentPosition + 1, messagesPerTick).then(filterOnOriginMatch);
         };
 
         const processBatch = (messages) => {
             return Bluebird.each(messages, (message) => {
                 return handleMessage(message)
-                    .then(() =>
-                        updateReadPosition(message.globalPosition, message.id)
-                    )
+                    .then(() => updateReadPosition(message.globalPosition, message.id))
                     .catch((err) => {
                         logError(message, err);
                         throw err;
@@ -97,12 +90,7 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
         };
 
         const logError = (lastMessage, error) => {
-            console.error(
-                'error processing:\n',
-                `\t${subscriberId}\n`,
-                `\t${lastMessage.id}\n`,
-                `\t${error}\n`
-            );
+            console.error('error processing:\n', `\t${subscriberId}\n`, `\t${lastMessage.id}\n`, `\t${error}\n`);
         };
 
         const start = () => {
@@ -115,6 +103,8 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
             console.log(`Stopped ${subscriberId}`);
 
             keepGoing = false;
+
+            return Bluebird.resolve(true);
         };
 
         const poll = async () => {
@@ -127,6 +117,8 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
                     await Bluebird.delay(tickIntervalMs);
                 }
             }
+
+            return Bluebird.resolve(true);
         };
 
         const tick = () => {
