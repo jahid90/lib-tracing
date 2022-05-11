@@ -1,0 +1,22 @@
+{
+    "name": "@jahiduls/mem-esdb",
+    "version": "1.0.0",
+    "description": "A in-memory event store db implementation",
+    "main": "index.js",
+    "scripts": {
+        "test": "jest",
+        "test:watch": "jest --watch"
+    },
+    "keywords": [
+        "eventstore",
+        "eventstoredb"
+    ],
+    "author": "Jahid",
+    "license": "ISC",
+    "dependencies": {
+        "uuid": "^8.3.2"
+    },
+    "devDependencies": {
+        "jest": "^28.1.0"
+    }
+}
