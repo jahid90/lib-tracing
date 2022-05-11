@@ -7,6 +7,6 @@
     "start": "EnableLogTraceToConsole=true ZIPKIN_URI=http://zipkin.jahiduls.mint/api/v2/spans node src/index.js"
   },
   "dependencies": {
-    "@jahiduls/lib-tracing": "link:/home/jahidul/workspace/projects/npm-libs/lib-tracing"
+    "@jahiduls/lib-tracing": "https://gitpkg.now.sh/jahid90/libs/tracing?main"
   }
 }
