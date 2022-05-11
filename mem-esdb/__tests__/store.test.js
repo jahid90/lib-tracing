@@ -104,6 +104,9 @@ describe('in-memory event store', () => {
             expect(event.streamName).toBe(TEST_EVENT_2.streamName);
             expect(event.data).toEqual(TEST_EVENT_2.data);
             expect(event.metadata).toEqual(TEST_EVENT_2.metadata);
+            expect(event.streamPosition).toBe(1);
+            expect(event.globalPosition).toBe(2);
+            expect(event.time).not.toBeNull();
         });
     });
 });

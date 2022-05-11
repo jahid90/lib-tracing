@@ -12,8 +12,8 @@ const createStore = () => {
         db.eventsByType[type] = db.eventsByType[type] || [];
 
         const id = uuid();
-        const globalPosition = db.events.length;
-        const streamPosition = db.eventsByStream[streamName].length;
+        const globalPosition = db.events.length + 1;
+        const streamPosition = db.eventsByStream[streamName].length + 1;
         const time = Date.now();
 
         const event = {
