@@ -5,6 +5,7 @@ const createStore = () => {
     db.events = [];
     db.eventsByStream = {};
     db.eventsByType = {};
+    db.eventsById = {};
 
     const addEvent = ({ type, streamName, data, metadata }) => {
         db.eventsByStream[streamName] = db.eventsByStream[streamName] || [];
@@ -13,6 +14,7 @@ const createStore = () => {
         const id = uuid();
         const globalPosition = db.events.length;
         const streamPosition = db.eventsByStream[streamName].length;
+        const time = Date.now();
 
         const event = {
             id,
@@ -22,8 +24,11 @@ const createStore = () => {
             metadata,
             streamPosition,
             globalPosition,
+            time,
         };
 
+        db.eventsById[id] = event;
+        // We can just store the ids in the below lists
         db.events = [...db.events, event];
         db.eventsByStream[streamName] = [...db.eventsByStream[streamName], event];
         db.eventsByType[type] = [...db.eventsByType[type], event];
@@ -50,18 +55,21 @@ const createStore = () => {
         return Promise.resolve(matched[lastIdx].id);
     };
 
+    const getAllEventsFromCategory = ({ category }) => {
+        const matched = db.events.filter((e) => e.streamName.startsWith(category + '-')) || [];
+        return Promise.resolve(matched.map((e) => e.id));
+    };
+
     const getAllEventsOfType = ({ type }) => {
         return Promise.resolve((db.eventsByType[type] || []).map((e) => e.id));
     };
 
     const getEventDetail = ({ id }) => {
-        const matched = db.events.filter((e) => e.id === id);
-
-        if (!matched || matched.length === 0) {
+        if (!db.eventsById[id]) {
             return Promise.resolve(false);
         }
 
-        return Promise.resolve(matched[0]);
+        return Promise.resolve(db.eventsById[id]);
     };
 
     return {
@@ -69,6 +77,7 @@ const createStore = () => {
         getAllEvents,
         getAllEventsFromStream,
         getLastEventFromStream,
+        getAllEventsFromCategory,
         getAllEventsOfType,
         getEventDetail,
     };

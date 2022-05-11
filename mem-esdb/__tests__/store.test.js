@@ -78,10 +78,16 @@ describe('in-memory event store', () => {
         });
     });
 
-    it('retrieves event by type', async () => {
+    it('retrieves events by type', async () => {
         await store.getAllEventsOfType({ type: TEST_EVENT_2.type }).then((eventIds) => {
             expect(eventIds.length).toBe(1);
             expect(eventIds[0]).toBe(generatedIds[1]);
+        });
+    });
+
+    it('retrieves events from category', async () => {
+        await store.getAllEventsFromCategory({ category: 'test-stream' }).then((ids) => {
+            expect(ids.length).toBe(3);
         });
     });
 
