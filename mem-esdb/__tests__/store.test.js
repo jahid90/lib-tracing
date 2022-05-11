@@ -3,7 +3,7 @@ const createStore = require('../lib/store');
 const TEST_EVENT_1 = {
     id: 'test-id-1',
     type: 'TestEvent1',
-    streamName: 'test-stream-1',
+    streamName: 'test-stream1',
     data: {
         k1: 'v1',
     },
@@ -15,7 +15,7 @@ const TEST_EVENT_1 = {
 const TEST_EVENT_2 = {
     id: 'test-id-2',
     type: 'TestEvent2',
-    streamName: 'test-stream-2',
+    streamName: 'test-stream2',
     data: {
         k3: 'v3',
     },
@@ -27,7 +27,7 @@ const TEST_EVENT_2 = {
 const TEST_EVENT_3 = {
     id: 'test-id-3',
     type: 'TestEvent1',
-    streamName: 'test-stream-1',
+    streamName: 'test-stream1',
     data: {
         k5: 'v5',
     },
@@ -64,6 +64,13 @@ describe('in-memory event store', () => {
         });
     });
 
+    it('retrieves all events from a given position', async () => {
+        await store.getAllEvents(2).then((eventIds) => {
+            expect(eventIds.length).toBe(1);
+            expect(eventIds[0]).toBe(generatedIds[2]);
+        });
+    });
+
     it('retrieves events from stream', async () => {
         await store.getAllEventsFromStream({ streamName: TEST_EVENT_1.streamName }).then((eventIds) => {
             expect(eventIds.length).toBe(2);
@@ -86,7 +93,7 @@ describe('in-memory event store', () => {
     });
 
     it('retrieves events from category', async () => {
-        await store.getAllEventsFromCategory({ category: 'test-stream' }).then((ids) => {
+        await store.getAllEventsFromCategory({ category: 'test' }).then((ids) => {
             expect(ids.length).toBe(3);
         });
     });
