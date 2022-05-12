@@ -35,7 +35,11 @@ const createHandlers = ({ store }) => {
             },
         };
 
-        return store.getEventDetail({ id }).then((event) => res.json(event));
+        return store
+            .addEvent(event)
+            .catch((err) => console.error(err.message))
+            .then(() => store.getEventDetail({ id }))
+            .then((event) => res.json(event));
     };
 
     return {
