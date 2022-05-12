@@ -32,20 +32,32 @@ const runCli = () => {
         .command('read')
         .description('read event(s) from the db')
         .option('-i --id <id>', 'the id of the event')
+        .option('-p, --prettyPrint', 'print the output in pretty format')
         .action(async (_, options) => {
             const client = await createClient({ url: null });
-            const { id } = options._optionValues;
+            const { id, prettyPrint } = options._optionValues;
 
             if (id == null) {
                 const events = await client.getAllEvents();
-                console.log(chalk.cyan(JSON.stringify(events)));
+
+                if (prettyPrint) {
+                    console.log(chalk.cyan(JSON.stringify(events, null, 2)));
+                } else {
+                    console.log(chalk.cyan(JSON.stringify(events)));
+                }
+
+                return;
             }
 
             const event = await client.getEvent({ id });
-            console.log(chalk.cyan(JSON.stringify(event)));
+            if (prettyPrint) {
+                console.log(chalk.cyan(JSON.stringify(event, null, 2)));
+            } else {
+                console.log(chalk.cyan(JSON.stringify(event)));
+            }
         });
 
-    program.parse(process.argv);
+    program.parse();
 };
 
 export default runCli;
