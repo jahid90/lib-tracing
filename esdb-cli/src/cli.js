@@ -24,8 +24,8 @@ const runCli = () => {
                 metadata: JSON.parse(metadata),
             };
             console.debug(chalk.blue(`[debug] received event: ${JSON.stringify(event)}`));
-            await store.addEvent(event);
-            console.log(chalk.green('[info] event added successfully'));
+            console.warn(chalk.yellow('[warn] write event not yet supported'));
+            // console.log(chalk.green('[info] event added successfully'));
         });
 
     program
