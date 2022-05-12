@@ -57,6 +57,18 @@ describe('store rest server', () => {
             });
     });
 
+    it('fetches all events with details', async () => {
+        await supertest(server)
+            .get('/db/events?full')
+            .expect(200)
+            .then((res) => res.body)
+            .then((events) => {
+                expect(events.length).toBe(2);
+                expect(events[0].type).toBe('ViewAllEventsRequest');
+                expect(events[1].streamName).toBe('esdb-requests');
+            });
+    });
+
     it('fetches event details', async () => {
         await supertest(server)
             .get(`/db/events/${eventId}`)

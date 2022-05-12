@@ -13,11 +13,20 @@ const createHandlers = ({ store }) => {
             },
         };
 
+        if (req.query.full !== undefined) {
+            return store
+                .addEvent(event)
+                .catch((err) => console.error(err.message))
+                .then(() => store.getAllEvents())
+                .then((ids) => Promise.all(ids.map((id) => store.getEventDetail({ id }))))
+                .then((events) => res.json(events));
+        }
+
         return store
             .addEvent(event)
             .catch((err) => console.error(err.message))
             .then(() => store.getAllEvents())
-            .then((events) => res.json(events));
+            .then((ids) => res.json(ids));
     };
 
     const handleViewEvent = (req, res) => {
