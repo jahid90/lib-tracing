@@ -1,0 +1,21 @@
+{
+    "name": "esdb-cli",
+    "version": "1.0.0",
+    "description": "",
+    "main": "bin/index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "bin": {
+        "esdb": "./bin/index.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.27.2",
+        "chalk": "^5.0.1",
+        "commander": "^9.2.0"
+    }
+}
