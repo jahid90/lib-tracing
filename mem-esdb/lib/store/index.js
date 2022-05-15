@@ -8,6 +8,10 @@ const createStore = () => {
     db.eventsById = {};
 
     const addEvent = ({ type, streamName, data, metadata }) => {
+        if (!streamName.includes('-')) {
+            throw new Error('streamName must be of the form <category-entityId>');
+        }
+
         db.eventsByStream[streamName] = db.eventsByStream[streamName] || [];
         db.eventsByType[type] = db.eventsByType[type] || [];
 
@@ -29,19 +33,36 @@ const createStore = () => {
 
         db.eventsById[id] = event;
         // We can store just the ids in the below lists
-        db.events = [...db.events, event];
-        db.eventsByStream[streamName] = [...db.eventsByStream[streamName], event];
-        db.eventsByType[type] = [...db.eventsByType[type], event];
+        db.events = [...db.events, id];
+        db.eventsByStream[streamName] = [...db.eventsByStream[streamName], id];
+        db.eventsByType[type] = [...db.eventsByType[type], id];
 
         return Promise.resolve(id);
     };
 
+    const deleteEvent = ({ id }) => {
+        const eventToDelete = db.eventsById[id];
+        if (!eventToDelete) {
+            console.warn('deleting event failed. no such event: ' + id);
+            return Promise.resolve(false);
+        }
+
+        delete db.eventsById[id];
+        db.events = db.events.filter((e) => e !== id);
+        db.eventsByStream[eventToDelete.streamName] = db.eventsByStream[eventToDelete.streamName].filter(
+            (e) => e !== id
+        );
+        db.eventsByType[eventToDelete.type] = db.eventsByType[eventToDelete.type].filter((e) => e !== id);
+
+        return Promise.resolve(true);
+    };
+
     const getAllEvents = (fromPosition = 0) => {
-        return Promise.resolve(db.events.slice(fromPosition).map((e) => e.id));
+        return Promise.resolve(db.events.slice(fromPosition));
     };
 
     const getAllEventsFromStream = ({ streamName, fromPosition = 0 }) => {
-        return Promise.resolve((db.eventsByStream[streamName] || []).slice(fromPosition).map((e) => e.id));
+        return Promise.resolve((db.eventsByStream[streamName] || []).slice(fromPosition));
     };
 
     const getLastEventFromStream = ({ streamName }) => {
@@ -52,16 +73,29 @@ const createStore = () => {
         }
 
         const lastIdx = matched.length - 1;
-        return Promise.resolve(matched[lastIdx].id);
+        return Promise.resolve(matched[lastIdx]);
     };
 
     const getAllEventsFromCategory = ({ category, fromPosition = 0 }) => {
-        const matched = db.events.filter((e) => e.streamName.startsWith(category + '-')) || [];
-        return Promise.resolve(matched.slice(fromPosition).map((e) => e.id));
+        const matched =
+            db.events
+                .map((id) => db.eventsById[id])
+                .filter((e) => e.streamName.startsWith(category + '-'))
+                .map((e) => e.id) || [];
+        return Promise.resolve(matched.slice(fromPosition));
     };
 
     const getAllEventsOfType = ({ type, fromPosition = 0 }) => {
-        return Promise.resolve((db.eventsByType[type] || []).slice(fromPosition).map((e) => e.id));
+        return Promise.resolve((db.eventsByType[type] || []).slice(fromPosition));
+    };
+
+    const getAllEventsMatchingMetadataAttr = ({ attrName, attrValue }) => {
+        return (
+            db.events
+                .map((id) => db.eventsById[id])
+                .filter((e) => e.metadata[attrName] === attrValue)
+                .map((e) => e.id) || []
+        );
     };
 
     const getEventDetail = ({ id }) => {
@@ -74,11 +108,13 @@ const createStore = () => {
 
     return {
         addEvent,
+        deleteEvent,
         getAllEvents,
         getAllEventsFromStream,
         getLastEventFromStream,
         getAllEventsFromCategory,
         getAllEventsOfType,
+        getAllEventsMatchingMetadataAttr,
         getEventDetail,
     };
 };
