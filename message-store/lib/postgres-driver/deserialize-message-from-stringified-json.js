@@ -9,8 +9,8 @@ const deserializeMessage = (rawMessage) => {
         type: rawMessage.type,
         position: parseInt(rawMessage.position, 10),
         globalPosition: parseInt(rawMessage.global_position, 10),
-        data: rawMessage.data ? rawMessage.data : {},
-        metadata: rawMessage.metadata ? rawMessage.metadata : {},
+        data: rawMessage.data ? JSON.parse(rawMessage.data) : {},
+        metadata: rawMessage.metadata ? JSON.parse(rawMessage.metadata) : {},
         time: rawMessage.time,
     };
 };

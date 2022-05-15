@@ -1,5 +1,5 @@
 const createWrite = ({ db }) => {
-    return (streamName, message, expectedVersion) => {
+    const writeMessage = (streamName, message, expectedVersion) => {
         if (!message.type) {
             throw new Error('Messages must have a type');
         }
@@ -14,6 +14,15 @@ const createWrite = ({ db }) => {
             data: message.data,
             metadata: message.metadata,
         });
+    };
+
+    const deleteMessageById = ({ id }) => {
+        return db.deleteEvent({ id });
+    };
+
+    return {
+        writeMessage,
+        deleteMessageById,
     };
 };
 

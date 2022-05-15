@@ -1,40 +1,36 @@
-const createStore = require('@jahiduls/mem-esdb');
-
-const createRead = require('./lib/postgres-driver/read');
-const createWrite = require('./lib/postgres-driver/write');
-
-const createMemRead = require('./lib/in-memory-driver/read');
-const createMemWrite = require('./lib/in-memory-driver/write');
-
+const createPostgresApi = require('./lib/postgres-driver');
+const createMemApi = require('./lib/in-memory-driver');
 const configureCreateSubscription = require('./lib/subscribe');
 
-const createMessageStore = ({ driver, db }) => {
-    let read;
-    let write;
+const createMessageStore = ({ driver, connectionString, debug }) => {
+    let api;
+
+    console.debug('message store is using driver: ' + driver);
 
     if (driver === 'postgres') {
-        read = createRead({ db });
-        write = createWrite({ db });
+        api = createPostgresApi({ connectionString, debug });
     } else if (driver == 'in-memory') {
-        db = createStore();
-        read = createMemRead({ db });
-        write = createMemWrite({ db });
+        api = createMemApi({ connectionString, debug });
     } else {
         throw new Error(`Unsupported driver type: ${driver}. Use one of ['postgres', 'in-memory'].`);
     }
 
     const createSubscription = configureCreateSubscription({
-        read: read.read,
-        readLastMessage: read.readLastMessage,
-        write,
+        read: api.read,
+        readLastMessage: api.readLast,
+        write: api.write,
     });
 
     return {
         createSubscription,
-        write,
-        read: read.read,
-        readLastMessage: read.readLastMessage,
-        fetch: read.fetch,
+        write: api.write,
+        deleteById: api.delete,
+        read: api.read,
+        readByType: api.readByType,
+        readByEntityId: api.readByEntityId,
+        readByMetadataAttribute: api.readByMetadataAttribute,
+        readById: api.readById,
+        project: api.project,
     };
 };
 

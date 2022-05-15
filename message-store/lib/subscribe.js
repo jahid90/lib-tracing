@@ -20,9 +20,9 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
         let keepGoing = true;
 
         const loadPosition = () => {
-            return readLastMessage(subscriberPositionStreamName).then(
-                (message) => (currentPosition = message ? message.data.position : 0)
-            );
+            return readLastMessage(subscriberPositionStreamName)
+                .then((message) => (currentPosition = message ? message.data.position : 0))
+                .catch((err) => console.error(err.message));
         };
 
         const updateReadPosition = (position, messageId) => {
@@ -54,7 +54,7 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
                 },
             };
 
-            return write(subscriberPositionStreamName, positionEvent);
+            return write(subscriberPositionStreamName, positionEvent).catch((err) => console.error(err.message));
         };
 
         const filterOnOriginMatch = (messages) => {
@@ -70,7 +70,12 @@ const configureCreateSubscription = ({ read, readLastMessage, write }) => {
         };
 
         const getNextBatchOfMessages = () => {
-            return read(streamName, currentPosition + 1, messagesPerTick).then(filterOnOriginMatch);
+            return read(streamName, currentPosition + 1, messagesPerTick)
+                .then(filterOnOriginMatch)
+                .catch((err) => {
+                    console.error(err.message);
+                    return [];
+                });
         };
 
         const processBatch = (messages) => {
