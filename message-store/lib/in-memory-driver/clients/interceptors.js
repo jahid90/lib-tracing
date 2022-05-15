@@ -1,8 +1,12 @@
-const successCodes = [200, 201, 202, 204];
+const { v4: uuid } = require('uuid');
 
-const createInterceptors = ({ debug }) => {
+const successCodes = [200, 201, 204];
+
+const createInterceptors = ({ debug, clientId }) => {
     const interceptors = {
         requestInterceptor: (config) => {
+            config.headers['x-client-id'] = clientId || 'message-store';
+            config.headers['x-request-id'] = uuid();
             debug && console.debug(`[request] [ok] ${JSON.stringify(config)}`);
             return config;
         },

@@ -1,18 +1,14 @@
 const axios = require('axios');
-const { v4: uuid } = require('uuid');
 
 const createInterceptors = require('./interceptors');
 
-const createClient = ({ url, debug }) => {
+const createClient = ({ url, debug, clientId }) => {
     const client = axios.create({
         baseURL: url,
-        timeout: 100,
-        headers: {
-            'x-request-id': uuid(),
-        },
+        timeout: 500,
     });
 
-    const interceptors = createInterceptors({ debug });
+    const interceptors = createInterceptors({ debug, clientId });
     client.interceptors.request.use(interceptors.requestInterceptor, interceptors.requestErrorInterceptor);
     client.interceptors.response.use(interceptors.responseInterceptor, interceptors.responseErrorInterceptor);
 

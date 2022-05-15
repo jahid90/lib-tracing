@@ -2,15 +2,15 @@ const createPostgresApi = require('./lib/postgres-driver');
 const createMemApi = require('./lib/in-memory-driver');
 const configureCreateSubscription = require('./lib/subscribe');
 
-const createMessageStore = ({ driver, connectionString, debug }) => {
+const createMessageStore = ({ clientId, driver, connectionString, debug }) => {
     let api;
 
     console.debug('message store is using driver: ' + driver);
 
     if (driver === 'postgres') {
-        api = createPostgresApi({ connectionString, debug });
+        api = createPostgresApi({ connectionString, debug, clientId });
     } else if (driver == 'in-memory') {
-        api = createMemApi({ connectionString, debug });
+        api = createMemApi({ connectionString, debug, clientId });
     } else {
         throw new Error(`Unsupported driver type: ${driver}. Use one of ['postgres', 'in-memory'].`);
     }
