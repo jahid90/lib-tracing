@@ -18,7 +18,9 @@ const createInterceptors = ({ logLevel, clientId }) => {
         },
         responseInterceptor: (response) => {
             if (!successCodes.includes(response.status)) {
-                logger.info(`resp x - ${JSON.stringify(response.data)}`);
+                if (response.status != 404) {
+                    logger.info(`resp x - ${JSON.stringify(response.data)}`);
+                }
                 return Promise.reject(response.data);
             }
 
@@ -26,7 +28,9 @@ const createInterceptors = ({ logLevel, clientId }) => {
             return response.data;
         },
         responseErrorInterceptor: (error) => {
-            logger.error(`resp x - ${JSON.stringify(error)}`);
+            if (error.response.status != 404) {
+                logger.error(`resp x - ${JSON.stringify(error)}`);
+            }
             return Promise.reject(error);
         },
     };
