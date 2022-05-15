@@ -2,9 +2,9 @@ const createClient = require('./clients/meeves-client');
 const createRead = require('./read');
 const createWrite = require('./write');
 
-const createApi = ({ connectionString, debug, clientId }) => {
+const createApi = ({ connectionString, logLevel, clientId }) => {
     console.debug('connection string is: ' + connectionString);
-    const db = createClient({ url: connectionString, debug, clientId });
+    const db = createClient({ url: connectionString, logLevel, clientId });
     read = createRead({ db });
     write = createWrite({ db });
 

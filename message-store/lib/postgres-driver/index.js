@@ -3,7 +3,7 @@ const createWrite = require('./write');
 
 const createPostgresClient = require('./clients/postgres-client');
 
-const createApi = ({ connectionString, debug }) => {
+const createApi = ({ connectionString, logLevel }) => {
     console.debug('connection string is: ' + connectionString);
     const db = createPostgresClient({ connectionString });
 

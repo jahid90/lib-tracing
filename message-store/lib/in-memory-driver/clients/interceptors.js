@@ -1,30 +1,32 @@
 const { v4: uuid } = require('uuid');
+const createLogger = require('../../logger');
 
 const successCodes = [200, 201, 204];
 
-const createInterceptors = ({ debug, clientId }) => {
+const createInterceptors = ({ logLevel, clientId }) => {
+    const logger = createLogger('message-store', logLevel);
     const interceptors = {
         requestInterceptor: (config) => {
             config.headers['x-client-id'] = clientId || 'message-store';
             config.headers['x-request-id'] = uuid();
-            debug && console.debug(`[request] [ok] ${JSON.stringify(config)}`);
+            logger.debug(`req ok - ${JSON.stringify(config)}`);
             return config;
         },
         requestErrorInterceptor: (error) => {
-            console.error(`[request] [fail] ${JSON.stringify(error)}`);
+            logger.warn(`req x - ${JSON.stringify(error)}`);
             return Promise.reject(error);
         },
         responseInterceptor: (response) => {
             if (!successCodes.includes(response.status)) {
-                debug && console.error(`[response] [fail] ${JSON.stringify(response.data)}`);
+                logger.info(`resp x - ${JSON.stringify(response.data)}`);
                 return Promise.reject(response.data);
             }
 
-            debug && console.debug(`[response] [ok] ${JSON.stringify(response.data)}`);
+            logger.debug(`resp ok - ${JSON.stringify(response.data)}`);
             return response.data;
         },
         responseErrorInterceptor: (error) => {
-            console.error(`[response] [fail] ${JSON.stringify(error)}`);
+            logger.error(`resp x - ${JSON.stringify(error)}`);
             return Promise.reject(error);
         },
     };
