@@ -39,7 +39,7 @@ const TEST_EVENT_3 = {
 describe('message store', () => {
     let store;
 
-    // Both drivers do not supoort returning ids!
+    // Both drivers do not support returning ids!
     let generatedIds = [];
 
     beforeAll(async () => {
