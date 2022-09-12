@@ -42,25 +42,23 @@ const runCli = () => {
 
             if (id == null) {
                 const events = await client.getAllEvents();
-
-                if (prettyPrint) {
-                    console.log(chalk.cyan(JSON.stringify(events, null, 2)));
-                } else {
-                    console.log(chalk.cyan(JSON.stringify(events)));
-                }
-
+                _prettyPrint(events, prettyPrint);
                 return;
             }
 
             const event = await client.getEvent({ id });
-            if (prettyPrint) {
-                console.log(chalk.cyan(JSON.stringify(event, null, 2)));
-            } else {
-                console.log(chalk.cyan(JSON.stringify(event)));
-            }
+            _prettyPrint(event, prettyPrint);
         });
 
     program.parse();
+};
+
+const _prettyPrint = (jsonData, prettyPrint) => {
+    if (prettyPrint) {
+        console.log(chalk.cyan(JSON.stringify(jsonData, null, 2)));
+    } else {
+        console.log(chalk.cyan(JSON.stringify(jsonData)));
+    }
 };
 
 export default runCli;
