@@ -17,6 +17,7 @@ const createHandlers = ({ store }) => {
             .addEvent(event)
             .then((_) => res.send('OK'))
             .catch((err) => {
+                // we don't care if the request event fails to be persisted
                 console.error(err.message);
                 return res.send('OK');
             });
